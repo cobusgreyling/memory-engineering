@@ -1,0 +1,32 @@
+version: 1
+patterns:
+  - id: session-scratchpad
+    title: Session Scratchpad
+    file: session-scratchpad.md
+    cadence: per-session
+    risk: low
+    tiers: [scratch]
+  - id: project-episodic-log
+    title: Project Episodic Log
+    file: project-episodic-log.md
+    cadence: per-run
+    risk: low
+    tiers: [episodic]
+  - id: durable-facts-store
+    title: Durable Facts Store
+    file: durable-facts-store.md
+    cadence: on-decision
+    risk: medium
+    tiers: [durable]
+  - id: retrieval-budget
+    title: Retrieval Budget
+    file: retrieval-budget.md
+    cadence: every-recall
+    risk: medium
+    tiers: [retrieved, scratch, episodic, durable]
+  - id: memory-hygiene-loop
+    title: Memory Hygiene Loop
+    file: memory-hygiene-loop.md
+    cadence: weekly
+    risk: low
+    tiers: [scratch, episodic, durable]

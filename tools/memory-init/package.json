@@ -1,0 +1,19 @@
+{
+  "name": "@cobusgreyling/memory-init",
+  "version": "0.1.0",
+  "description": "Scaffold memory engineering files, skills, and budgets",
+  "type": "module",
+  "bin": {
+    "memory-init": "./cli.js"
+  },
+  "main": "./init.js",
+  "files": [
+    "cli.js",
+    "init.js",
+    "templates"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

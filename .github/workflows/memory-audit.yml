@@ -1,0 +1,19 @@
+name: memory-audit dogfood
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Memory Ready score
+        run: node tools/memory-audit/cli.js . --min-score=40 --suggest
+      - name: Unit tests
+        run: npm run test:tools
