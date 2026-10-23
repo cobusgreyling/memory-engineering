@@ -1,5 +1,9 @@
 # Memory Engineering
 
+<p align="center">
+  <img src="assets/visuals/memory-engineering-header.png" alt="Memory Engineering. Scratch to episodic, then a gate, then durable. A hypothesis stays in Scratch." width="100%" />
+</p>
+
 Context Engineering & Memory Engineering answer different questions, and the failure modes are different too.
 
 Context engineering asks what fits in this prompt. It is the edit of one window: which files, tool results, and notes go in, what gets compressed, and what gets dropped so the model still attends to the right tokens.
