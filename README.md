@@ -1,5 +1,11 @@
 # Memory Engineering
 
+Context Engineering & Memory Engineering answer different questions, and the failure modes are different too.
+
+Context engineering asks what fits in this prompt. It is the edit of one window: which files, tool results, and notes go in, what gets compressed, and what gets dropped so the model still attends to the right tokens.
+
+Memory engineering asks what is true across runs, and who may write it. It is state with a policy: scratch notes for this session, an episodic log of what happened, durable facts that only a human or a verifier may promote, and a retrieval budget so the next context pack stays small. A fact can be correctly stored and still be the wrong thing to load. A window can be perfectly curated and still start from nothing tomorrow.
+
 <p align="center">
   <a href="https://github.com/cobusgreyling/memory-engineering/stargazers"><img src="https://img.shields.io/github/stars/cobusgreyling/memory-engineering?style=social" alt="GitHub stars"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT"></a>
