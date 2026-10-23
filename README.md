@@ -6,6 +6,33 @@ Context engineering asks what fits in this prompt. It is the edit of one window:
 
 Memory engineering asks what is true across runs, and who may write it. It is state with a policy: scratch notes for this session, an episodic log of what happened, durable facts that only a human or a verifier may promote, and a retrieval budget so the next context pack stays small. A fact can be correctly stored and still be the wrong thing to load. A window can be perfectly curated and still start from nothing tomorrow.
 
+## Use it
+
+Clone the repo and point one command at your project. No install.
+
+```bash
+git clone https://github.com/cobusgreyling/memory-engineering.git
+cd memory-engineering
+
+node memory.js init ../your-project
+node memory.js write ../your-project "what you learned" --tag hypothesis
+node memory.js promote ../your-project
+node memory.js audit ../your-project --suggest
+```
+
+`write` appends Scratch. The default tag is `hypothesis`, so a guess cannot land as a fact. `promote` only prints the queue until you pass `--apply`. A hypothesis never moves to Durable.
+
+```bash
+node memory.js promote ../your-project --apply --to episodic
+node memory.js promote ../your-project --apply --to durable --by "Your Name" --evidence "PR or path" --match "words"
+```
+
+Read a finished case without running anything: [examples/morning-after](examples/morning-after/README.md). The pass/fail list is [the memory test](docs/memory-test.md).
+
+```bash
+node memory.js --help
+```
+
 <p align="center">
   <a href="https://github.com/cobusgreyling/memory-engineering/stargazers"><img src="https://img.shields.io/github/stars/cobusgreyling/memory-engineering?style=social" alt="GitHub stars"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT"></a>
@@ -24,21 +51,6 @@ Companion to:
 | **Memory** | **this repo** | What persists *between* runs |
 | Loop | [loop-engineering](https://github.com/cobusgreyling/loop-engineering) | What keeps prompting over time |
 | Fleet | [fleet-engineering](https://github.com/cobusgreyling/fleet-engineering) | Populations of agents |
-
-```bash
-# 5 minutes to Memory Ready
-npx @cobusgreyling/memory-init .
-npx @cobusgreyling/memory-audit . --suggest
-```
-
-Until packages are published, run from a clone:
-
-```bash
-git clone https://github.com/cobusgreyling/memory-engineering.git
-cd memory-engineering
-node tools/memory-init/cli.js /path/to/your-project --pattern session-scratchpad
-node tools/memory-audit/cli.js /path/to/your-project --suggest
-```
 
 ## Start here (pick your pain)
 
@@ -97,20 +109,25 @@ Rules of thumb:
 - [CLI surface](docs/cli-surface.md)
 - [Anti-patterns](docs/anti-patterns.md)
 - [Operating memory](docs/operating-memory.md)
+- [Memory test](docs/memory-test.md)
 - [With loop / fleet](docs/with-loop.md)
+- [Morning-after example](examples/morning-after/README.md)
 - [Starters](starters/)
-- [Stories](stories/)
+- [Stories](stories/) — start with [the poisoned durable fact](stories/poisoned-durable-fact.md)
 
 ## Getting started (5 minutes)
 
 ```bash
 # 1. Scaffold memory spine + skills
-node tools/memory-init/cli.js . --pattern session-scratchpad --tool grok
+node memory.js init ../your-project --pattern session-scratchpad --tool grok
 
 # 2. Score readiness
-node tools/memory-audit/cli.js . --suggest
+node memory.js audit ../your-project --suggest
 
-# 3. Week one: write scratch + episodic only — no auto-promotion to durable
+# 3. Week one: write scratch. Promote observed notes to episodic.
+#    Leave durable for a person.
+node memory.js write ../your-project "login failed on CI job 8841" --tag observed
+node memory.js promote ../your-project --apply --to episodic
 ```
 
 Artifacts created:
@@ -128,10 +145,11 @@ Artifacts created:
 
 | Command | Job |
 |---------|-----|
-| `memory-init` | Scaffold pattern + templates + skills |
-| `memory-audit` | Memory Ready score + suggestions |
+| `node memory.js init` | Scaffold pattern + templates + skills |
+| `node memory.js write` | Append a Scratch bullet |
+| `node memory.js promote` | Show or apply the promotion gate |
+| `node memory.js audit` | Memory Ready score + suggestions |
 | *(planned)* `memory-compact` | Summarize episodic under budget |
-| *(planned)* `memory-promote` | Propose scratch → durable with verifier gate |
 | *(planned)* `memory-mcp-server` | MCP tools: recall / write / list / hygiene |
 
 Full flags: [docs/cli-surface.md](docs/cli-surface.md)

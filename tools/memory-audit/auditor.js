@@ -110,12 +110,11 @@ export async function auditMemory(target) {
       memoryState + memoryMd,
     );
 
+  const durableBody = memoryState.split(/##\s*Durable/i)[1]?.split(/\n##\s+/)[0] || '';
   const durableSection = /##\s*Durable/i.test(memoryState);
   const durableHasOwner =
-    !durableSection ||
-    /owner\s*:|@\w+|evidence\s*:/i.test(
-      memoryState.split(/##\s*Durable/i)[1]?.slice(0, 4000) || '',
-    );
+    !durableSection || /owner\s*:|@\w+|evidence\s*:/i.test(durableBody);
+  const durableHasHypothesis = /\[hypothesis\]|confidence:\s*hypothesis/i.test(durableBody);
 
   const blob = memoryMd + memoryState + budget + constraints;
   const secretHit = SECRET_HINTS.some((re) => re.test(blob));
@@ -142,6 +141,7 @@ export async function auditMemory(target) {
     confidenceTags,
     durableHasOwner,
     secretHit,
+    durableHasHypothesis,
     stateHuge,
     auditWorkflow,
     patternsRegistry,
@@ -156,7 +156,7 @@ export async function auditMemory(target) {
     findings.push({ level: 'ok', message: 'MEMORY.md present' });
   } else {
     findings.push({ level: 'fail', message: 'Missing MEMORY.md — memory posture undefined' });
-    recommendations.push('node tools/memory-init/cli.js . --pattern session-scratchpad');
+    recommendations.push('node memory.js init . --pattern session-scratchpad');
   }
 
   if (signals.memoryState) {
@@ -164,7 +164,7 @@ export async function auditMemory(target) {
     findings.push({ level: 'ok', message: 'MEMORY-STATE.md present' });
   } else {
     findings.push({ level: 'fail', message: 'Missing MEMORY-STATE.md' });
-    recommendations.push('node tools/memory-init/cli.js . --pattern session-scratchpad');
+    recommendations.push('node memory.js init . --pattern session-scratchpad');
   }
 
   if (signals.tiersDoc) {
@@ -179,7 +179,7 @@ export async function auditMemory(target) {
     findings.push({ level: 'ok', message: 'memory-write skill present' });
   } else {
     findings.push({ level: 'warn', message: 'Missing memory-write skill' });
-    recommendations.push('node tools/memory-init/cli.js . --pattern session-scratchpad');
+    recommendations.push('node memory.js init . --pattern session-scratchpad');
   }
 
   if (signals.hasRecall) {
@@ -194,7 +194,7 @@ export async function auditMemory(target) {
     findings.push({ level: 'ok', message: 'memory-hygiene skill present' });
   } else {
     findings.push({ level: 'warn', message: 'Missing memory-hygiene skill' });
-    recommendations.push('node tools/memory-init/cli.js . --pattern memory-hygiene-loop');
+    recommendations.push('node memory.js init . --pattern memory-hygiene-loop');
   }
 
   if (signals.hasVerifier) {
@@ -202,7 +202,7 @@ export async function auditMemory(target) {
     findings.push({ level: 'ok', message: 'memory-verifier (or verifier) skill present' });
   } else {
     findings.push({ level: 'warn', message: 'Missing memory-verifier skill — required before durable auto-writes' });
-    recommendations.push('node tools/memory-init/cli.js . --pattern durable-facts-store');
+    recommendations.push('node memory.js init . --pattern durable-facts-store');
   }
 
   if (signals.budget) {
@@ -210,7 +210,7 @@ export async function auditMemory(target) {
     findings.push({ level: 'ok', message: 'memory-budget.md present' });
   } else {
     findings.push({ level: 'warn', message: 'Missing memory-budget.md' });
-    recommendations.push('node tools/memory-init/cli.js . --pattern retrieval-budget');
+    recommendations.push('node memory.js init . --pattern retrieval-budget');
   }
 
   if (signals.constraints) {
@@ -242,6 +242,15 @@ export async function auditMemory(target) {
   if (signals.patternsRegistry) {
     score += 2;
     findings.push({ level: 'ok', message: 'patterns/registry.yaml present' });
+  }
+
+  if (signals.durableHasHypothesis) {
+    score = Math.max(10, score - 12);
+    findings.push({
+      level: 'fail',
+      message: 'Durable holds a hypothesis — move it back to Scratch',
+    });
+    recommendations.push('node memory.js promote .');
   }
 
   if (!signals.durableHasOwner) {

@@ -2,11 +2,14 @@
 
 Short, honest writeups of memory engineering wins and failures.
 
-Suggested first stories to publish after launch:
+Published:
 
-1. **Cold-start morning** — before/after session scratchpad (time saved)
-2. **Decision fight** — episodic log settles “we already chose X”
-3. **Poisoned durable fact** — why verifier gates exist
-4. **Context blowup** — retrieval budget cut tokens without quality loss
+1. [The hypothesis that became a fact](poisoned-durable-fact.md) — a guess written into Durable, believed the next morning
+
+Still worth writing:
+
+1. **Cold-start morning** — before/after session scratchpad
+2. **Decision fight** — episodic log settles "we already chose X"
+3. **Context blowup** — retrieval budget cut tokens without losing the fact
 
 Use structure: context → failure → pattern → score change → lesson.

@@ -15,9 +15,12 @@ Ship **after** fleet relaunch week (or in parallel only if you have bandwidth). 
 ## Pre-launch checklist
 
 - [ ] `npm run test:tools` green
-- [ ] Dogfood score ≥ 40 (`node tools/memory-audit/cli.js .`)
-- [ ] npm publish `@cobusgreyling/memory-init` + `memory-audit` (optional v0 from git works)
-- [ ] GitHub repo public + topics: `ai-agents`, `memory`, `loop-engineering`
+- [ ] Dogfood score ≥ 40 (`node memory.js audit . --min-score=40`)
+- [x] Front door that runs from the clone: `node memory.js`
+- [x] Worked example: `examples/morning-after`
+- [x] Story: `stories/poisoned-durable-fact.md`
+- [x] Memory test: `docs/memory-test.md`
+- [ ] GitHub topics: `ai-agents`, `memory`, `loop-engineering`
 - [ ] Cross-link from loop-engineering README
 - [ ] 15s GIF: empty → init → score climb
 - [ ] Substack essay: “Memory Engineering (the missing layer between context and loops)”

@@ -9,7 +9,7 @@
 
 ## CLIs
 
-- Keep `memory-init` / `memory-audit` runnable with Node ≥18 and no network
+- Keep `memory.js`, `memory-init`, `memory-audit`, and `memory-promote` runnable with Node ≥18 and no network
 - Add tests under `tools/*/test`
 - Run `npm run test:tools`
 

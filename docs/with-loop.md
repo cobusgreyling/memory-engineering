@@ -22,7 +22,7 @@ Scaffold both:
 
 ```bash
 npx @cobusgreyling/loop-init . --pattern daily-triage --tool grok
-node /path/to/memory-engineering/tools/memory-init/cli.js . --pattern project-episodic-log --tool grok
+node /path/to/memory-engineering/memory.js init . --pattern project-episodic-log --tool grok
 ```
 
 ## With fleet-engineering

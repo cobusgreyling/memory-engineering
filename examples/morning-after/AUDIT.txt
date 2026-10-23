@@ -1,0 +1,56 @@
+Captured from this clone. Re-run with:
+
+  node memory.js audit examples/morning-after/before
+  node memory.js audit examples/morning-after/after
+
+The level stays M1 in both folders. This example is a memory file, not a full skill scaffold. The difference that matters is the FAIL block: 48 with a hypothesis in Durable, 68 once that hypothesis is back in Scratch and the durable fact has an owner and evidence.
+
+--- before (exit 1) ---
+
+Memory Ready: 48/100  ·  M1 structured
+
+Structured memory — add hygiene loop (and keep durable writes manual).
+
+OK
+  ✓ MEMORY.md present
+  ✓ MEMORY-STATE.md present
+  ✓ Tiers documented (scratch / episodic / durable)
+  ✓ memory-budget.md present
+  ✓ memory-constraints.md present
+  ✓ Confidence tags in use
+
+WARN
+  ! Missing memory-write skill
+  ! Missing memory-recall skill
+  ! Missing memory-hygiene skill
+  ! Missing memory-verifier skill — required before durable auto-writes
+  ! Missing memory-run-log.md
+
+FAIL
+  ✗ Durable holds a hypothesis — move it back to Scratch
+  ✗ Durable section lacks owner/evidence hints
+
+--- promote before (exit 1) ---
+
+Refused: a hypothesis cannot become durable (retries are safe; the flake is clock skew). Move it back to Scratch.
+
+--- after (exit 0) ---
+
+Memory Ready: 68/100  ·  M1 structured
+
+Structured memory — add hygiene loop (and keep durable writes manual).
+
+OK
+  ✓ MEMORY.md present
+  ✓ MEMORY-STATE.md present
+  ✓ Tiers documented (scratch / episodic / durable)
+  ✓ memory-budget.md present
+  ✓ memory-constraints.md present
+  ✓ Confidence tags in use
+
+WARN
+  ! Missing memory-write skill
+  ! Missing memory-recall skill
+  ! Missing memory-hygiene skill
+  ! Missing memory-verifier skill — required before durable auto-writes
+  ! Missing memory-run-log.md

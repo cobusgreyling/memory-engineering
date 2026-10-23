@@ -14,6 +14,6 @@ jobs:
         with:
           node-version: '20'
       - name: Memory Ready score
-        run: node tools/memory-audit/cli.js . --min-score=40 --suggest
+        run: node memory.js audit . --min-score=40 --suggest
       - name: Unit tests
         run: npm run test:tools

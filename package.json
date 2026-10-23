@@ -6,8 +6,9 @@
   "scripts": {
     "test:memory-audit": "node --test tools/memory-audit/test/*.test.mjs",
     "test:memory-init": "node --test tools/memory-init/test/*.test.mjs",
-    "test:tools": "npm run test:memory-audit && npm run test:memory-init",
-    "audit:dogfood": "node tools/memory-audit/cli.js . --min-score=40"
+    "test:memory-promote": "node --test tools/memory-promote/test/*.test.mjs",
+    "test:tools": "npm run test:memory-audit && npm run test:memory-init && npm run test:memory-promote",
+    "audit:dogfood": "node memory.js audit . --min-score=40"
   },
   "engines": {
     "node": ">=18"
